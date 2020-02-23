@@ -2,7 +2,7 @@
 
 import numpy as np
 
-class DeltaTrimax4():
+class DeltaTrimax():
 
     def __init__(self, D):
         self.D = D.copy()
