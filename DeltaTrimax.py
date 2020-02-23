@@ -2,6 +2,10 @@
 
 import numpy as np
 
+class EmptyTriclusterException(Exception):
+    pass
+
+
 class DeltaTrimax():
 
     def __init__(self, D):
