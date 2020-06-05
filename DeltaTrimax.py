@@ -239,7 +239,7 @@ class DeltaTrimax():
                                                          sample)            
             
 
-            # Check for trivial tricluster
+            # Check for trivial triclusters
             if (time.sum() == 1) or (gene.sum() == 1) or (sample.sum() == 1):
                 break  # trivial bicluster
             # Check if the aren't any unused values in D
