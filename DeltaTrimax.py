@@ -100,8 +100,6 @@ class DeltaTrimax():
 
     def multiple_node_deletion(self, gene, kondisi, waktu):
         self.hitung_MSR(gene, kondisi, waktu)
-        #i = 1
-        self.muldel = 1
         while (self.MSR > self.delta):
             hapus = 0
             
@@ -150,7 +148,6 @@ class DeltaTrimax():
   
     def single_node_deletion(self, gene, kondisi, waktu):
         self.hitung_MSR(gene, kondisi, waktu)
-        self.singdel = 1
         while (self.MSR > self.delta):
             
             gene_max = np.argmax(self.MSR_gene)
@@ -194,9 +191,6 @@ class DeltaTrimax():
                     
     def node_addition(self, gene, kondisi, waktu):
         self.hitung_MSR(gene, kondisi, waktu)
-        #print("MSR awal node addition :",self.MSR)
-        #i = 1
-        self.nodeadd = 1
         while True:
             #print("node addition ke-",i)
             
@@ -271,11 +265,11 @@ class DeltaTrimax():
         self.D[w,g,k] = mask_val
     
     def TQI(self,msr,gene,kondisi,waktu):
-      m = self.D_asli[waktu][:,gene][:,:,kondisi]
-      x,y,z = m.shape
-      v = x*y*z
-      tqi = msr/v
-      return tqi
+      	m = self.D_asli[waktu][:,gene][:,:,kondisi]
+      	x,y,z = m.shape
+      	v = x*y*z
+      	tqi = msr/v
+      	return tqi
             
 
     
