@@ -1,3 +1,13 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Sep 15 14:31:17 2020
+
+@author: noob
+
+D.shape
+Out[88]: (3, 10, 5)
+"""
 
 import numpy as np
 import sys
@@ -9,7 +19,6 @@ class DeltaTrimax():
         self.D_asli = D.copy()
     
     def hitung_MSR(self, gene, kondisi, waktu, g_add=False, k_add=False, w_add=False):
-        
         
         gene_idx = np.expand_dims(np.expand_dims(np.nonzero(gene)[0],axis=0),axis=2)
         #
@@ -261,20 +270,26 @@ class DeltaTrimax():
         w = np.expand_dims(np.expand_dims(waktu.nonzero()[0],axis=1),axis=2)
         
         shape = np.count_nonzero(waktu), np.count_nonzero(gene), np.count_nonzero(kondisi)
-        mask_val = np.random.uniform(self.minval, self.maxval, shape)
+        if self.mask_mode =='nan':
+            mask_val = np.nan
+        if self.mask_mode == 'random':
+            mask_val = np.random.uniform(self.minval, self.maxval, shape)
+        
         self.D[w,g,k] = mask_val
     
     def TQI(self,msr,gene,kondisi,waktu):
-      	m = self.D_asli[waktu][:,gene][:,:,kondisi]
-      	x,y,z = m.shape
-      	v = x*y*z
-      	tqi = msr/v
+        m = self.D_asli[waktu][:,gene][:,:,kondisi]
+        x,y,z = m.shape
+        v = x*y*z
+        tqi = msr/v
         tqi = np.array([tqi])
-      	return tqi
+        return tqi
             
 
-    
-    def fit(self, delta, lamda, n_triclusters=0):
+    def fit(self, delta, lamda, mask_mode, n_triclusters=0):
+        '''
+        mask_mode : "random", "nan"
+        '''
 
         awal = time.time()
         
@@ -286,6 +301,8 @@ class DeltaTrimax():
         # treshold untuk multiple node deletion
         self.gene_cutoff, self.kondisi_cutoff, self.waktu_cutoff = 50,50,50
         #nilai untuk masking
+        print("mask mode: {mask_mode} \n")
+        self.mask_mode = mask_mode
         self.minval = np.min(self.D)
         self.maxval = np.max(self.D)
         
@@ -307,6 +324,12 @@ class DeltaTrimax():
             waktu = np.ones(n_waktu, dtype=np.bool)
             gene = np.ones(n_gene, dtype=np.bool)
             kondisi = np.ones(n_kondisi, dtype=np.bool)
+            
+            if self.mask_mode == "nan":
+                self.D = self.D.astype(np.float)
+                gene = np.mean(np.mean(self.D,axis=0),axis=1)
+                gene = np.isnan(gene)==0
+
             
             # Multiple Node Deletion
             gene, kondisi, waktu = self.multiple_node_deletion(gene, kondisi, waktu)
@@ -347,3 +370,5 @@ class DeltaTrimax():
             i+=1
             
         return hasil_gen, hasil_kondisi, hasil_waktu, msr, tqi
+
+
