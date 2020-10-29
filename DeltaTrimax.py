@@ -286,7 +286,7 @@ class DeltaTrimax():
         return tqi
             
 
-    def fit(self, delta, lamda, mask_mode, n_triclusters=0):
+    def fit(self, delta, lamda, mask_mode="random", n_triclusters=0):
         '''
         mask_mode : "random", "nan"
         '''
@@ -301,7 +301,7 @@ class DeltaTrimax():
         # treshold untuk multiple node deletion
         self.gene_cutoff, self.kondisi_cutoff, self.waktu_cutoff = 50,50,50
         #nilai untuk masking
-        print("mask mode: {mask_mode} \n")
+        print(f"mask mode: {mask_mode} \n")
         self.mask_mode = mask_mode
         self.minval = np.min(self.D)
         self.maxval = np.max(self.D)
