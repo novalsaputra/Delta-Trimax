@@ -2,11 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Sep 15 14:31:17 2020
-
-@author: noob
-
-D.shape
-Out[88]: (3, 10, 5)
 """
 
 import numpy as np
